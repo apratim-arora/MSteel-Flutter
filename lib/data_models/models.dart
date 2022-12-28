@@ -211,67 +211,28 @@ class PipeSpecs {
       'qty3': qty3,
     };
   }
-
-  factory PipeSpecs.fromMap(Map<String, dynamic> map) {
-    return PipeSpecs(
-      thickness: map['thickness'] as String,
-      wpp: map['wpp'] as String,
-      qty1: map['qty1'] != null ? map['qty1'] as double : null,
-      qty2: map['qty2'] != null ? map['qty2'] as double : null,
-      qty3: map['qty3'] != null ? map['qty3'] as double : null,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory PipeSpecs.fromJson(String source) =>
-      PipeSpecs.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'PipeSpecs(thickness: $thickness, wpp: $wpp, qty1: $qty1, qty2: $qty2, qty3: $qty3)';
-  }
-
-  @override
-  bool operator ==(covariant PipeSpecs other) {
-    if (identical(this, other)) return true;
-
-    return other.thickness == thickness &&
-        other.wpp == wpp &&
-        other.qty1 == qty1 &&
-        other.qty2 == qty2 &&
-        other.qty3 == qty3;
-  }
-
-  @override
-  int get hashCode {
-    return thickness.hashCode ^
-        wpp.hashCode ^
-        qty1.hashCode ^
-        qty2.hashCode ^
-        qty3.hashCode;
-  }
 }
 
 class PipeDetails {
   final String pipeSize;
   final String pipeName;
-  final List<PipeSpecs> specs;
+  final List<Map<String, dynamic>> fields;
+  // final List<PipeSpecs> specs;
   PipeDetails({
     required this.pipeSize,
     required this.pipeName,
-    required this.specs,
+    required this.fields,
   });
 
   PipeDetails copyWith({
     String? pipeSize,
     String? pipeName,
-    List<PipeSpecs>? specs,
+    List<Map<String, dynamic>>? fields,
   }) {
     return PipeDetails(
       pipeSize: pipeSize ?? this.pipeSize,
       pipeName: pipeName ?? this.pipeName,
-      specs: specs ?? this.specs,
+      fields: fields ?? this.fields,
     );
   }
 
@@ -279,7 +240,7 @@ class PipeDetails {
     return <String, dynamic>{
       'pipeSize': pipeSize,
       'pipeName': pipeName,
-      'specs': specs.map((x) => x.toMap()).toList(),
+      'fields': fields,
     };
   }
 
@@ -287,9 +248,9 @@ class PipeDetails {
     return PipeDetails(
       pipeSize: map['pipeSize'] as String,
       pipeName: map['pipeName'] as String,
-      specs: List<PipeSpecs>.from(
-        (map['specs'] as List<int>).map<PipeSpecs>(
-          (x) => PipeSpecs.fromMap(x as Map<String, dynamic>),
+      fields: List<Map<String, dynamic>>.from(
+        (map['fields'] as List<dynamic>).map<Map<String, dynamic>>(
+          (x) => x,
         ),
       ),
     );
@@ -302,7 +263,7 @@ class PipeDetails {
 
   @override
   String toString() =>
-      'PipeDetails(pipeSize: $pipeSize, pipeName: $pipeName, specs: $specs)';
+      'PipeDetails(pipeSize: $pipeSize, pipeName: $pipeName, fields: $fields)';
 
   @override
   bool operator ==(covariant PipeDetails other) {
@@ -310,11 +271,11 @@ class PipeDetails {
 
     return other.pipeSize == pipeSize &&
         other.pipeName == pipeName &&
-        listEquals(other.specs, specs);
+        listEquals(other.fields, fields);
   }
 
   @override
-  int get hashCode => pipeSize.hashCode ^ pipeName.hashCode ^ specs.hashCode;
+  int get hashCode => pipeSize.hashCode ^ pipeName.hashCode ^ fields.hashCode;
 }
 
 class MapModel {

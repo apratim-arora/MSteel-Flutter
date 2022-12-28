@@ -45,12 +45,13 @@ class _StockStatementScreenState extends State<StockStatementScreen> {
         ),
         const SizedBox(height: 26),
         ListView.builder(
+          primary: false,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) => PipeDataWidget(
             pipeSize: pipeDetailsList[index].pipeSize,
             pipeName: pipeDetailsList[index].pipeName,
-            pipeSpecs: pipeDetailsList[index].specs,
+            fields: pipeDetailsList[index].fields,
           ),
           itemCount: pipeDetailsList.length,
         )
